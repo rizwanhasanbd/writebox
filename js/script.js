@@ -317,8 +317,20 @@ Enjoy your writing.`);
      * scroll. So we resize textarea to its content height.
      */
     function autoResizeEditor() {
+        let scroller = editor.parentElement;
+        while (scroller && scroller !== document.body) {
+            const oy = getComputedStyle(scroller).overflowY;
+            if (oy === 'auto' || oy === 'scroll') break;
+            scroller = scroller.parentElement;
+        }
+        scroller = scroller || document.scrollingElement || document.documentElement;
+
+        const prevScrollTop = scroller.scrollTop;
+
         editor.style.height = 'auto';
         editor.style.height = editor.scrollHeight + 'px';
+
+        scroller.scrollTop = prevScrollTop;
     }
 
     /* ---------- Theme ---------- */
