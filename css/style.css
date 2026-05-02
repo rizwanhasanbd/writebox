@@ -523,3 +523,74 @@ button {
         max-width: 100%;
     }
 }
+
+/* ---------- Font Size Controls ---------- */
+.font-size-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0 4px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    background-color: var(--bg-soft);
+    border: 1px solid var(--border);
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+.font-size-group .icon-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+}
+
+.font-size-display {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-soft);
+    min-width: 38px;
+    text-align: center;
+    user-select: none;
+    font-family: var(--font-sans);
+    transition: color var(--transition);
+}
+
+.font-size-btn:disabled,
+.font-size-btn[aria-disabled="true"] {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* Override editor font-size via CSS variable so JS can update it cleanly */
+.editor {
+    font-size: var(--editor-font-size, 19px);
+}
+
+/* Responsive — hide the size label on small screens, keep buttons */
+@media (max-width: 768px) {
+    .font-size-display {
+        display: none;
+    }
+    .font-size-group {
+        margin: 0 2px;
+        padding: 1px 2px;
+    }
+    .editor {
+        /* keep JS-set size on mobile too, but allow a slightly smaller default */
+        font-size: var(--editor-font-size, 17px);
+    }
+}
+
+@media (max-width: 480px) {
+    .font-size-group {
+        display: none; /* hide on very small screens to save space; shortcuts still work */
+    }
+    .editor {
+        font-size: var(--editor-font-size, 16px);
+    }
+}
+
+@media print {
+    .editor {
+        font-size: 12pt;
+    }
+}
