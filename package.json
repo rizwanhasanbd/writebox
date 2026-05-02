@@ -1,0 +1,22 @@
+{
+  "name": "writebox",
+  "version": "1.0.0",
+  "description": "WriteBox — a minimalist, distraction-free writing web app with LocalStorage persistence, multiple documents, dark mode, import/export, and keyboard shortcuts.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "writing",
+    "minimalist",
+    "notepad",
+    "distraction-free",
+    "localstorage"
+  ],
+  "author": "WriteBox",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
