@@ -547,3 +547,84 @@ Enjoy your writing.`);
         init();
     }
 })();
+
+/* ============================================
+   Font Size Controls
+   ============================================ */
+(function () {
+    const STORAGE_KEY = 'writebox.fontSize';
+    const MIN_SIZE = 12;
+    const MAX_SIZE = 40;
+    const STEP = 1;
+    const DEFAULT_SIZE = 19;
+
+    const decreaseBtn = document.getElementById('font-decrease');
+    const increaseBtn = document.getElementById('font-increase');
+    const display = document.getElementById('font-size-display');
+    const editor = document.getElementById('editor');
+
+    if (!editor) return; // safety
+
+    let currentSize = loadSize();
+
+    function loadSize() {
+        const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
+        if (!isNaN(saved) && saved >= MIN_SIZE && saved <= MAX_SIZE) {
+            return saved;
+        }
+        return DEFAULT_SIZE;
+    }
+
+    function saveSize(size) {
+        try {
+            localStorage.setItem(STORAGE_KEY, String(size));
+        } catch (e) { /* storage full / disabled */ }
+    }
+
+    function applySize(size) {
+        currentSize = Math.max(MIN_SIZE, Math.min(MAX_SIZE, size));
+        document.documentElement.style.setProperty('--editor-font-size', currentSize + 'px');
+        if (display) display.textContent = currentSize + 'px';
+        updateButtonStates();
+        saveSize(currentSize);
+    }
+
+    function updateButtonStates() {
+        if (decreaseBtn) {
+            const atMin = currentSize <= MIN_SIZE;
+            decreaseBtn.disabled = atMin;
+            decreaseBtn.setAttribute('aria-disabled', atMin);
+        }
+        if (increaseBtn) {
+            const atMax = currentSize >= MAX_SIZE;
+            increaseBtn.disabled = atMax;
+            increaseBtn.setAttribute('aria-disabled', atMax);
+        }
+    }
+
+    function increase() { applySize(currentSize + STEP); }
+    function decrease() { applySize(currentSize - STEP); }
+    function reset()    { applySize(DEFAULT_SIZE); }
+
+    if (increaseBtn) increaseBtn.addEventListener('click', increase);
+    if (decreaseBtn) decreaseBtn.addEventListener('click', decrease);
+
+    // Keyboard shortcuts: Ctrl/Cmd + =  /  + -  /  + 0
+    document.addEventListener('keydown', function (e) {
+        if (!(e.ctrlKey || e.metaKey)) return;
+        // "=" key (often shares with "+"); also accept NumpadAdd
+        if (e.key === '=' || e.key === '+') {
+            e.preventDefault();
+            increase();
+        } else if (e.key === '-' || e.key === '_') {
+            e.preventDefault();
+            decrease();
+        } else if (e.key === '0') {
+            e.preventDefault();
+            reset();
+        }
+    });
+
+    // Apply on load
+    applySize(currentSize);
+})();
