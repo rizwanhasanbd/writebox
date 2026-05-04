@@ -6,6 +6,16 @@
     <meta name="description" content="WriteBox - A minimalist, distraction-free writing app">
     <meta name="theme-color" content="#ffffff">
     <title>WriteBox</title>
+    <script>
+        (function () {
+            try {
+                var stored = localStorage.getItem('writebox.theme');
+                var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.classList.toggle('dark', theme === 'dark');
+            } catch (e) {}
+        })();
+    </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✍️</text></svg>">
 </head>
