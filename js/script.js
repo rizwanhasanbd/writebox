@@ -335,12 +335,12 @@ Enjoy your writing.`);
 
     /* ---------- Theme ---------- */
     function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.toggle('dark', theme === 'dark');
         if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
             iconMoon.style.display = 'none';
             iconSun.style.display = 'block';
         } else {
-            document.documentElement.removeAttribute('data-theme');
             iconMoon.style.display = 'block';
             iconSun.style.display = 'none';
         }
@@ -357,8 +357,7 @@ Enjoy your writing.`);
     }
 
     function toggleTheme() {
-        const current = document.documentElement.getAttribute('data-theme') === 'dark'
-            ? 'dark' : 'light';
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
         localStorage.setItem(STORAGE_KEYS.THEME, next);
