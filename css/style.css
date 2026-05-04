@@ -21,6 +21,7 @@
     --transition: 0.25s ease;
 }
 
+html.dark,
 [data-theme="dark"] {
     --bg: #1a1a1a;
     --bg-soft: #242424;
